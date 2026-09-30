@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="MetroMate Dubai">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+
+    <title>MetroMate Dubai</title>
+
+    <link rel="stylesheet" href="style.css?v=5">
+</head>
+
+<body>
+
+    <div class="dubai-sky" aria-hidden="true">
+        <div class="sky-glow glow-one"></div>
+        <div class="sky-glow glow-two"></div>
+        <div class="landmark landmark-khalifa"><span></span></div>
+        <div class="landmark landmark-arab"><span></span></div>
+        <div class="sky-grid"></div>
+    </div>
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="header">
+
+        <div class="logo-area">
+            <div class="logo-icon">🚇</div>
+
+            <div>
+                <h1>MetroMate</h1>
+                <span>Dubai Metro Assistant</span>
+            </div>
+        </div>
+
+        <div class="header-actions">
+
+        <button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle theme">☀️</button>
+
+        <div class="language-wrapper">
+
+            <button
+                class="language-btn"
+                id="languageBtn"
+                type="button">
+                EN ▾
+            </button>
+
+            <div
+                class="language-menu"
+                id="languageMenu">
+
+                <button
+                    type="button"
+                    data-language="en">
+                    🇬🇧 English
+                </button>
+
+                <button
+                    type="button"
+                    data-language="hi">
+                    🇮🇳 हिन्दी
+                </button>
+
+            </div>
+
+        </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="container">
+
+        <!-- WELCOME -->
+
+        <section class="welcome">
+
+            <div class="welcome-icon">
+                🚇
+            </div>
+
+            <h2 data-i18n="welcomeTitle">
+                Dubai Metro Made Simple
+            </h2>
+
+            <p data-i18n="welcomeText">
+                Choose your current station and destination.
+                MetroMate will guide you step by step.
+            </p>
+
+        </section>
+
+
+        <!-- ================= CURRENT STATION ================= -->
+
+        <section class="card">
+
+            <div class="section-title">
+
+                <span class="section-number">
+                    1
+                </span>
+
+                <div>
+                    <h3 data-i18n="currentStation">
+                        Where are you now?
+                    </h3>
+
+                    <p data-i18n="currentStationSub">
+                        Select your current metro station
+                    </p>
+                </div>
+
+            </div>
+
+
+            <!-- GPS -->
+
+            <button
+                class="detect-location-btn"
+                id="detectLocationBtn"
+                type="button">
+
+                <span>📍</span>
+
+                <span data-i18n="detectLocation">
+                    Detect My Location
+                </span>
+
+            </button>
+
+
+            <div
+                class="location-status"
+                id="locationStatus"
+                aria-live="polite">
+            </div>
+
+
+            <!-- CURRENT STATION -->
+
+            <button
+                class="select-box"
+                id="currentStationButton"
+                type="button">
+
+                <span id="currentStationText">
+                    Select current station
+                </span>
+
+                <span>⌄</span>
+
+            </button>
+
+        </section>
+
+
+        <!-- ================= DESTINATION ================= -->
+
+        <section class="card">
+
+            <div class="section-title">
+
+                <span class="section-number">
+                    2
+                </span>
+
+                <div>
+
+                    <h3 data-i18n="destination">
+                        Where do you want to go?
+                    </h3>
+
+                    <p data-i18n="destinationSub">
+                        Select your destination
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="select-box"
+                id="destinationButton"
+                type="button">
+
+                <span id="destinationText">
+                    Select destination
+                </span>
+
+                <span>⌄</span>
+
+            </button>
+
+
+            <!-- POPULAR DESTINATIONS -->
+
+            <div class="popular-title"
+                 data-i18n="popularDestinations">
+
+                Popular destinations
+
+            </div>
+
+
+            <div class="popular-grid">
+
+                <button
+                    class="destination-card"
+                    data-station="BurJuman"
+                    type="button">
+
+                    <span class="destination-icon">
+                        🔄
+                    </span>
+
+                    <span>
+                        BurJuman
+                    </span>
+
+                </button>
+
+
+                <button
+                    class="destination-card"
+                    data-station="Burj Khalifa / Dubai Mall"
+                    type="button">
+
+                    <span class="destination-icon">
+                        🏙️
+                    </span>
+
+                    <span>
+                        Burj Khalifa
+                    </span>
+
+                </button>
+
+
+                <button
+                    class="destination-card"
+                    data-station="Emirates Towers"
+                    type="button">
+
+                    <span class="destination-icon">
+                        🏢
+                    </span>
+
+                    <span>
+                        Emirates Towers
+                    </span>
+
+                </button>
+
+
+                <button
+                    class="destination-card"
+                    data-station="Airport Terminal 3"
+                    type="button">
+
+                    <span class="destination-icon">
+                        ✈️
+                    </span>
+
+                    <span>
+                        Airport T3
+                    </span>
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= VOICE ================= -->
+
+        <button
+            class="voice-button"
+            id="voiceButton"
+            type="button">
+
+            🔊
+
+            <span data-i18n="voiceGuide">
+                Voice Guidance
+            </span>
+
+        </button>
+
+
+        <!-- ================= ROUTE BUTTON ================= -->
+
+        <button
+            class="route-button"
+            id="routeButton"
+            type="button">
+
+            🚇
+
+            <span data-i18n="showRoute">
+                Show My Route
+            </span>
+
+        </button>
+
+
+        <!-- ================= ROUTE RESULT ================= -->
+
+        <section
+            class="route-result"
+            id="routeResult">
+
+            <div class="route-header">
+
+                <div>
+
+                    <span class="small-label"
+                          data-i18n="yourJourney">
+
+                        Your Journey
+
+                    </span>
+
+                    <h2 id="routeTitle">
+                        Your Route
+                    </h2>
+
+                </div>
+
+                <div
+                    class="route-badge"
+                    id="routeBadge">
+                </div>
+
+            </div>
+
+
+            <!-- JOURNEY STATUS -->
+
+            <div
+                class="journey-status"
+                id="journeyStatus">
+
+                <div class="status-icon">
+                    🚇
+                </div>
+
+                <div>
+
+                    <strong id="journeyStatusTitle">
+                        Ready to start
+                    </strong>
+
+                    <p id="journeyStatusText">
+                        Start your journey to enable automatic tracking.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- AUTO TRACKING STATUS -->
+
+            <div
+                class="tracking-status"
+                id="trackingStatus">
+
+                <span class="tracking-dot"></span>
+
+                <span id="trackingStatusText">
+                    Automatic tracking inactive
+                </span>
+
+            </div>
+
+            <div class="gps-telemetry" id="gpsTelemetry">
+                <div class="telemetry-head">
+                    <span><span class="telemetry-live-dot"></span> LIVE GPS TELEMETRY</span>
+                    <span id="gpsSignalLabel">Standby</span>
+                </div>
+                <div class="telemetry-grid">
+                    <div><small>Accuracy</small><strong id="gpsAccuracyValue">—</strong></div>
+                    <div><small>Speed</small><strong id="gpsSpeedValue">—</strong></div>
+                    <div><small>Nearest station</small><strong id="gpsNearestValue">—</strong></div>
+                </div>
+                <div class="gps-progress"><span id="gpsProgressBar"></span></div>
+            </div>
+
+
+            <!-- NEXT STATION -->
+
+            <div class="next-station-guide">
+
+                <span class="next-label">
+                    NEXT STATION
+                </span>
+
+                <div class="next-station-name"
+                     id="nextStationName">
+
+                    —
+
+                </div>
+
+                <div class="next-station-message"
+                     id="nextStationMessage">
+
+                    Start your journey to begin guidance.
+
+                </div>
+
+            </div>
+
+
+            <!-- TIMELINE -->
+
+            <div class="timeline-wrapper">
+                <div class="journey-line-header">
+                    <span>LIVE TRAIN SIMULATION</span>
+                    <span id="trainPositionLabel">Station 1</span>
+                </div>
+                <div class="timeline-stage" id="timelineStage">
+                    <div class="timeline" id="timeline"></div>
+                    <div class="moving-train" id="movingTrain" aria-hidden="true">
+                        <div class="train-glow"></div>
+                        <div class="train-body">🚇</div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- JOURNEY CONTROLS -->
+
+            <div class="journey-controls">
+
+                <button
+                    class="start-journey-button"
+                    id="startJourneyButton"
+                    type="button">
+
+                    ▶ Start Journey
+
+                </button>
+
+
+                <button
+                    class="manual-button"
+                    id="manualStationButton"
+                    type="button">
+
+                    ✓ I Reached This Station
+
+                </button>
+
+            </div>
+
+
+            <div class="journey-tip">
+
+                <span>💡</span>
+
+                <span id="journeyTipText">
+
+                    MetroMate will automatically detect your journey
+                    when location is available. If GPS is unavailable,
+                    use the manual button.
+
+                </span>
+
+            </div>
+
+
+            <div
+                class="route-message"
+                id="routeMessage">
+            </div>
+
+        </section>
+
+        <!-- ================= SMART GUIDE ================= -->
+        <section class="smart-guide card" id="smartGuide">
+            <div class="guide-heading">
+                <div class="guide-icon">🧭</div>
+                <div>
+                    <span class="eyebrow">ON-BOARD GUIDE</span>
+                    <h3>Know what to follow</h3>
+                    <p>Simple visual instructions for Dubai Metro signs, lines and platforms.</p>
+                </div>
+            </div>
+            <div class="line-legend">
+                <div class="legend-card red-legend"><span class="legend-line"></span><div><strong>Red Line</strong><small>Follow red signs & red platform indicators</small></div></div>
+                <div class="legend-card green-legend"><span class="legend-line"></span><div><strong>Green Line</strong><small>Follow green signs & green platform indicators</small></div></div>
+            </div>
+            <div class="guide-steps">
+                <div><span>01</span><strong>Find the line</strong><p>Match the route badge with the station signs.</p></div>
+                <div><span>02</span><strong>Check direction</strong><p>Follow the displayed destination direction before boarding.</p></div>
+                <div><span>03</span><strong>Use the platform</strong><p>Platform numbers can vary by station, so follow the official platform boards.</p></div>
+            </div>
+        </section>
+
+        <!-- ================= EXPERIENCE RATING ================= -->
+        <section class="rating-card" id="ratingCard">
+            <div class="rating-copy">
+                <span class="eyebrow">METROMATE EXPERIENCE</span>
+                <h3>How was your journey?</h3>
+                <p>Rate the app and help improve the MetroMate experience.</p>
+                <div class="rating-summary"><strong id="ratingAverage">—</strong><span id="ratingCount">No ratings yet</span></div>
+            </div>
+            <div class="rating-action">
+                <div class="stars" id="ratingStars" role="radiogroup" aria-label="Rate MetroMate">
+                    <button type="button" data-rating="1" aria-label="1 star">★</button>
+                    <button type="button" data-rating="2" aria-label="2 stars">★</button>
+                    <button type="button" data-rating="3" aria-label="3 stars">★</button>
+                    <button type="button" data-rating="4" aria-label="4 stars">★</button>
+                    <button type="button" data-rating="5" aria-label="5 stars">★</button>
+                </div>
+                <button class="rating-submit" id="ratingSubmit" type="button" disabled>Submit rating</button>
+                <div class="rating-message" id="ratingMessage" aria-live="polite"></div>
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- ================= STATION POPUP ================= -->
+
+    <div
+        class="popup-overlay"
+        id="stationPopup">
+
+        <div class="station-popup">
+
+            <div class="popup-header">
+
+                <h3 id="popupTitle">
+                    Select Station
+                </h3>
+
+                <button
+                    id="closePopup"
+                    type="button">
+                    ✕
+                </button>
+
+            </div>
+
+
+            <input
+                type="text"
+                id="stationSearch"
+                class="station-search"
+                placeholder="Search station...">
+
+
+            <div
+                class="line-tabs"
+                id="lineTabs">
+
+                <button
+                    class="line-tab active"
+                    data-line="all"
+                    type="button">
+                    All
+                </button>
+
+                <button
+                    class="line-tab red"
+                    data-line="red"
+                    type="button">
+                    Red Line
+                </button>
+
+                <button
+                    class="line-tab green"
+                    data-line="green"
+                    type="button">
+                    Green Line
+                </button>
+
+            </div>
+
+
+            <div
+                class="station-list"
+                id="stationList">
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <p>
+            MetroMate Dubai
+        </p>
+
+        <span>
+            Simple • Visual • Voice Assisted
+        </span>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+<script src="advanced-features.js"></script>
+<script>
+window.addEventListener("load", function () {
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("./service-worker.js")
+            .catch(function (error) {
+                console.error("MetroMate service worker registration failed:", error);
+            });
+    }
+});
+</script>
+<script>
+(function(){
+  const btn=document.getElementById("themeBtn");
+  const saved=localStorage.getItem("metromate-theme");
+  if(saved==="light") document.documentElement.classList.add("mm-light");
+  function sync(){ if(!btn) return; btn.textContent=document.documentElement.classList.contains("mm-light")?"🌙":"☀️"; }
+  sync();
+  if(btn) btn.addEventListener("click",function(){
+    document.documentElement.classList.toggle("mm-light");
+    localStorage.setItem("metromate-theme",document.documentElement.classList.contains("mm-light")?"light":"dark");
+    sync();
+  });
+})();
+</script>
+
+</body>
+</html>
