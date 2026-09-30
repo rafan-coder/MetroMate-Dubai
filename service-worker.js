@@ -1,4 +1,4 @@
-const CACHE_NAME = "metromate-dubai-v5";
+const CACHE_NAME = "metromate-dubai-v6-ratings";
 const APP_SHELL = [
   "./",
   "./index.html",

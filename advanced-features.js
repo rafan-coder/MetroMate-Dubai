@@ -46,30 +46,84 @@
     }
   };
 
-  function loadRatings() {
-    let data;
-    try { data = JSON.parse(localStorage.getItem('metromate-ratings') || '[]'); } catch { data = []; }
-    const avg = data.length ? (data.reduce((a, b) => a + b, 0) / data.length).toFixed(1) : '—';
-    if (ratingAverage) ratingAverage.textContent = data.length ? `${avg} ★` : '—';
-    if (ratingCount) ratingCount.textContent = data.length ? `${data.length} local rating${data.length === 1 ? '' : 's'}` : 'No ratings yet';
+  // Online ratings are stored in Supabase. The publishable key is safe for browser use
+  // when Row Level Security is enabled with the policies created for this table.
+  const SUPABASE_URL = 'https://ksqjlqenfqdefththorr.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_83rmgJwqVrQso4EFMhi4nQ_dk1DxK_5';
+  const SUPABASE_RATINGS_URL = `${SUPABASE_URL}/rest/v1/ratings`;
+  const ratingFeedback = $('ratingFeedback');
+
+  async function loadRatings() {
+    try {
+      const response = await fetch(`${SUPABASE_RATINGS_URL}?select=rating`, {
+        headers: {
+          apikey: SUPABASE_KEY,
+          Authorization: `Bearer ${SUPABASE_KEY}`
+        },
+        cache: 'no-store'
+      });
+      if (!response.ok) throw new Error(`Ratings request failed: ${response.status}`);
+      const rows = await response.json();
+      const ratings = rows.map(row => Number(row.rating)).filter(value => value >= 1 && value <= 5);
+      const avg = ratings.length ? (ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(1) : '—';
+      if (ratingAverage) ratingAverage.textContent = ratings.length ? `${avg} ★` : '—';
+      if (ratingCount) ratingCount.textContent = ratings.length ? `${ratings.length} online rating${ratings.length === 1 ? '' : 's'}` : 'No ratings yet';
+    } catch (error) {
+      console.error('MetroMate ratings:', error);
+      if (ratingAverage) ratingAverage.textContent = '—';
+      if (ratingCount) ratingCount.textContent = 'Ratings temporarily unavailable';
+    }
   }
-  function paintStars(value) { ratingStars.forEach((b, i) => b.classList.toggle('selected', i < value)); }
+
+  function paintStars(value) {
+    ratingStars.forEach((b, i) => b.classList.toggle('selected', i < value));
+  }
+
   ratingStars.forEach((button) => button.addEventListener('click', () => {
     selectedRating = Number(button.dataset.rating);
     paintStars(selectedRating);
     if (ratingSubmit) ratingSubmit.disabled = false;
     if (ratingMessage) ratingMessage.textContent = `You selected ${selectedRating} star${selectedRating > 1 ? 's' : ''}.`;
   }));
-  if (ratingSubmit) ratingSubmit.addEventListener('click', () => {
+
+  if (ratingSubmit) ratingSubmit.addEventListener('click', async () => {
     if (!selectedRating) return;
-    let data;
-    try { data = JSON.parse(localStorage.getItem('metromate-ratings') || '[]'); } catch { data = []; }
-    data.push(selectedRating);
-    localStorage.setItem('metromate-ratings', JSON.stringify(data.slice(-100)));
-    loadRatings();
-    ratingMessage.textContent = 'Thanks — your rating was saved on this device.';
     ratingSubmit.disabled = true;
+    if (ratingMessage) ratingMessage.textContent = 'Submitting your rating…';
+
+    const feedback = ratingFeedback ? ratingFeedback.value.trim() : '';
+    try {
+      const response = await fetch(SUPABASE_RATINGS_URL, {
+        method: 'POST',
+        headers: {
+          apikey: SUPABASE_KEY,
+          Authorization: `Bearer ${SUPABASE_KEY}`,
+          'Content-Type': 'application/json',
+          Prefer: 'return=minimal'
+        },
+        body: JSON.stringify({
+          rating: selectedRating,
+          feedback: feedback || null
+        })
+      });
+
+      if (!response.ok) {
+        const detail = await response.text();
+        throw new Error(`Rating submission failed: ${response.status} ${detail}`);
+      }
+
+      if (ratingMessage) ratingMessage.textContent = 'Thanks — your rating was submitted online.';
+      if (ratingFeedback) ratingFeedback.value = '';
+      paintStars(0);
+      selectedRating = 0;
+      await loadRatings();
+    } catch (error) {
+      console.error('MetroMate rating submission:', error);
+      if (ratingMessage) ratingMessage.textContent = 'Could not submit right now. Please try again.';
+      ratingSubmit.disabled = false;
+    }
   });
+
   loadRatings();
   window.addEventListener('resize', () => {
     const current = document.querySelector('#timeline .live-station.current');
